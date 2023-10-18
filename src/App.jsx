@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Todo from './components/Todo';
 import TodoForm from './components/TodoForm';
+import Search from './components/Search';
+import Filter from './components/Filter';
 import './App.css';
 
 
@@ -25,6 +27,9 @@ function App() {
       isCompleted: false,
     }
   ])
+
+
+  const [search, setSearch] = useState("");
 
   // FN que add to-do na lista:
   const addTodo = (text, category) => {
@@ -58,8 +63,14 @@ function App() {
 
   return <div className='app'>
     <h1>Lista de Tarefas</h1>
+    <Search search={search} setSearch={setSearch}/>
+    <Filter />
     <div className='todo-list'>
-      {todos.map((todo) => (
+      {todos
+        .filter((todo) => 
+          todo.text.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((todo) => (
         <Todo key={todo.id} 
         todo={todo}
         removeTodo={removeTodo}
